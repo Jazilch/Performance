@@ -1,0 +1,34 @@
+ In theory jQuery can be as fast as Vanilla JS but due to how people normally are calling DOM elements or writing their code
+in jQuery to tends to bog down the performance. 
+
+Take the below example there are a couple items that have been changed and while the performance might be minimal once this starts
+compunding into hundreds of lines of code you will want to start this way before instead of trying to refactor all your code later.
+
+// Original Version
+ <script>
+        $(document).ready(function() {
+            $(body).removeClass('latest-tab');
+            $(body).removeClass('post-tab');
+            $(body).addClass('latest-tab');
+            $('.tabber-tabs li').removeClass('active');
+            $('.blog-archive').parent().addClass('active');
+        });
+    </script>
+
+With two quick changes we have a refactored version of this code. While they look similar in line 22 I am actually storing the
+body element as a variable and then using this to add and remove classes below. This only makes one call to the DOM to originally
+find the body element and then after that we are justing using that varible again. In the above version there is no stored 
+variable so jQuery is trying to find the body element each time. In additon to that change I'm also removing an un-necessary line of code
+that was on line 11 from above. If you want to remove the class on two different item you can seperate them with a comma instead
+of writing two different lines of code. 
+
+// Refactored Version
+ <script>
+        $(document).ready(function() {
+            $body = $('body')
+            $body.removeClass('latest-tab', 'post-tab');
+            $body.addClass('latest-tab');
+            $('.tabber-tabs li').removeClass('active');
+            $('.blog-archive').parent().addClass('active');
+        });
+ </script>
